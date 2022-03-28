@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Profile
+from apps.profiles.models import Profile
 from apps.lettings.models import Letting
 
 
