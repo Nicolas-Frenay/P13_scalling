@@ -9,6 +9,7 @@ def test_index_profiles():
     path = reverse('profiles:index')
     assert resolve(path).view_name == 'profiles:index'
 
+
 @pytest.mark.django_db
 def test_index_profiles_view():
     client = Client()
@@ -17,6 +18,7 @@ def test_index_profiles_view():
     content = response.content.decode()
     expected_content = '<title>Profiles</title>'
     assert expected_content in content
+
 
 @pytest.mark.django_db
 def test_profile_view():

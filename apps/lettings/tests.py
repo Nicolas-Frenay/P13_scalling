@@ -8,6 +8,7 @@ def test_index_lettings():
     path = reverse('lettings:index')
     assert resolve(path).view_name == 'lettings:index'
 
+
 @pytest.mark.django_db
 def test_index_lettings_view():
     client = Client()
@@ -16,6 +17,7 @@ def test_index_lettings_view():
     content = response.content.decode()
     expected_content = '<title>Lettings</title>'
     assert expected_content in content
+
 
 @pytest.mark.django_db
 def test_letting_view():

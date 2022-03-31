@@ -6,6 +6,7 @@ def test_home():
     path = reverse('home:index')
     assert resolve(path).view_name == 'home:index'
 
+
 def test_home_view():
     client = Client()
     path = reverse('home:index')
