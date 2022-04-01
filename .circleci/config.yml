@@ -37,6 +37,14 @@ jobs:
       - run:
           name: logout
           command: docker logout
+
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - run:
+          command: heroku/deploy-via-git
             
 
 workflows:
@@ -52,6 +60,8 @@ workflows:
               only: master
 
       - heroku_deploy:
+          jobs:
+            - deploy
           requires:
             - build-and-test
           filters:
