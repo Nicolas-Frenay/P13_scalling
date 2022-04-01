@@ -28,8 +28,8 @@ jobs:
       - run:
           name: pushing image
           command: |
-            docker tag p13 ${DOCKERHUB_USERNAME}/p13:${CIRCLE_SHA1}
-            docker login -u ${DOCKERHUB_USERNAME} --password-stdin < ~/%{DOCKERHUB_PASSWORD}
+            docker tag p13 $DOCKERHUB_USERNAME/p13:${CIRCLE_SHA1}
+            docker login -u $DOCKERHUB_USERNAME --password-stdin < ~/$DOCKERHUB_PASSWORD
             docker push nicolasfrenay/p13:${CIRCLE_SHA1}
             docker logout
             
