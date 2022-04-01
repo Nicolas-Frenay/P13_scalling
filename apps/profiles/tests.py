@@ -30,7 +30,3 @@ def test_profile_view():
     content = response.content.decode()
     expected_content = profile.user.username
     assert expected_content in content
-
-
-def test_ci():
-    assert 0 == 1
