@@ -29,7 +29,7 @@ jobs:
 #        python-version: ${{ matrix.python-version }}
     - name: Build stack
       run: |
-        docker run -t p13 .
+        docker build -t p13 .
     - name: Open contener
       run: |
         docker run -ti p13 bash
