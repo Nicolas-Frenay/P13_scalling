@@ -52,6 +52,8 @@ workflows:
               only: master
 
       - heroku/deploy-via-git:
+          pre-steps:
+            - run: python manage.py loaddata db.json
           requires:
             - dockering
           filters:
