@@ -53,8 +53,8 @@ workflows:
 
       - heroku/deploy-via-git:
           post-steps:
-            - run: python manage.py migrate
-            - run: python manage.py loaddata db.json
+            - run: python3 manage.py migrate
+            - run: python3 manage.py loaddata db.json
           requires:
             - dockering
           filters:
