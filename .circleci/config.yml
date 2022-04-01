@@ -21,9 +21,8 @@ jobs:
     # A list of available CircleCI Docker convenience images are available here: https://circleci.com/developer/images/image/cimg/python
     # The executor is the environment in which the steps below will be executed - below will use a python 3.10.2 container
     # Change the version below to your required version of python
-#    docker:
-#      - image: cimg/python:3.9
-    machine: true
+    docker:
+      - image: cimg/python:3.9
     # Checkout the code as the first step. This is a dedicated CircleCI step.
     # The python orb's install-packages step will install the dependencies from a Pipfile via Pipenv by default.
     # Here we're making sure we use just use the system-wide pip. By default it uses the project root's requirements.txt.
@@ -31,21 +30,35 @@ jobs:
     # CircleCI will report the results back to your VCS provider.
     steps:
       - checkout
-      - run: docker build -t p13 .
-      - run: docker run -ti p13 bash
+#      - run: docker build -t p13 .
+#      - run: docker run -ti p13 bash
       - run:
           name: Run flake8
           command: flake8
       - run:
           name: Run tests
           command: pytest
-      - run: exit
+#      - run: exit
+#      - run:
+#          name: tagging docker image
+#          command: docker tag p13 nicolasfrenay/p13:${CIRCLE_SHA1}
+#      - run:
+#          name: Pushing image
+#          command: docker push nicolasfrenay/p13:${CIRCLE_SHA1}
+
+  dockering:
+    machine: true
+    steps:
+      - checkout
       - run:
-          name: tagging docker image
-          command: docker tag p13 nicolasfrenay/p13:${CIRCLE_SHA1}
+          name: creating image
+          command: docker build p13:${CIRCLE_SHA1}
       - run:
-          name: Pushing image
-          command: docker push nicolasfrenay/p13:${CIRCLE_SHA1}
+          name: pushing image
+          command: |
+          docker tag p13 nicolasfrenay/p13:${CIRCLE_SHA1}
+          docker push nicolasfrenay/p13:${CIRCLE_SHA1}
+
 
 
 
@@ -69,6 +82,9 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
+      - dockering:
+          requires:
+            - dockering
 #      - heroku_deploy:
 #          requires:
 #            - build-and-test
