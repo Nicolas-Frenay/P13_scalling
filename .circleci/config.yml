@@ -30,17 +30,13 @@ jobs:
           command: docker tag p13 nicolasfrenay/p13:${CIRCLE_SHA1}
       - run:
           name: login dockerhub
-          command: |
-#            docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-            docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
           name: pushing to dockerhub
-          command: |
-            docker push nicolasfrenay/p13:${CIRCLE_SHA1}
+          command: docker push nicolasfrenay/p13:${CIRCLE_SHA1}
       - run:
           name: logout
-          command: |
-            docker logout
+          command: docker logout
             
 
 
