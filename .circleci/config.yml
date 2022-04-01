@@ -84,7 +84,7 @@ workflows:
       - build-and-test
       - dockering:
           requires:
-            - dockering
+            - build-and-test
 #      - heroku_deploy:
 #          requires:
 #            - build-and-test
