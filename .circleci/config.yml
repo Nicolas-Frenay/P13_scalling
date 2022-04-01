@@ -52,7 +52,8 @@ workflows:
               only: master
 
       - heroku/deploy-via-git:
-          pre-steps:
+          post-steps:
+            - run: python manage.py migrate
             - run: python manage.py loaddata db.json
           requires:
             - dockering
