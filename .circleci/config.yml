@@ -53,9 +53,9 @@ workflows:
 
   heroku_deploy:
     jobs:
-      - heroku/deploy-via-git
-#        requires:
-#          - dockering
-        filters:
-          branches:
-            only: master
+      - heroku/deploy-via-git:
+          requires:
+            - dockering
+          filters:
+            branches:
+              only: master
