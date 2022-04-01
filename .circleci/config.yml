@@ -27,10 +27,9 @@ jobs:
           command: docker build -t p13 .
       - run:
           name: taging image
-          command: docker tag p13 nicolasfrenay/p13:${CIRCLE_SHA1}
+          command: docker tag p13 $DOCKERHUB_USERNAME/p13:${CIRCLE_SHA1}
       - run:
           name: login dockerhub
-#          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
           command: echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USERNAME --password-stdin
       - run:
           name: pushing to dockerhub
@@ -40,23 +39,21 @@ jobs:
           command: docker logout
             
 
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  django: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  django:
     jobs:
       - build-and-test
+
       - dockering:
           requires:
             - build-and-test
           filters:
             branches:
               only: master
-#      - heroku_deploy:
-#          requires:
-#            - build-and-test
-#          filters:
-#            branches:
-#              only: master
+
+      - heroku_deploy:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only: master

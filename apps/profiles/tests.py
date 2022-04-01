@@ -10,10 +10,6 @@ def test_index_profiles():
     assert resolve(path).view_name == 'profiles:index'
 
 
-# def test_profile():
-#     pat = resolve()
-
-
 @pytest.mark.django_db
 def test_index_profiles_view():
     client = Client()
