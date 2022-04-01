@@ -32,7 +32,7 @@ jobs:
         docker build -t p13 .
     - name: Open contener
       run: |
-        docker run -ti p13 bash
+        docker run p13
 #    - name: Install Dependencies
 #      run: |
 #        python -m pip install --upgrade pip
