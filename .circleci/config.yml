@@ -51,8 +51,6 @@ workflows:
             branches:
               only: master
 
-  heroku_deploy:
-    jobs:
       - heroku/deploy-via-git:
           requires:
             - dockering
