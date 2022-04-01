@@ -29,6 +29,7 @@ jobs:
           name: pushing image
           command: |
             docker tag p13 nicolasfrenay/p13:${CIRCLE_SHA1}
+            docker login -u nicolasfrenay -p %{DOCKER_PASSWORD}
             docker push nicolasfrenay/p13:${CIRCLE_SHA1}
 
 
