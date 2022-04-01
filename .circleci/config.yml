@@ -30,7 +30,7 @@ jobs:
           command: |
             docker tag p13_scalling_web nicolasfrenay/p13:${CIRCLE_SHA1}
             docker login -u nicolasfrenay --password-stdin %{DOCKER_PASSWORD}
-            docker push nicolasfrenay/p13:${CIRCLE_SHA1}
+            docker push nicolasfrenay/p13_scalling_web:${CIRCLE_SHA1}
             docker-compose down
 
 
