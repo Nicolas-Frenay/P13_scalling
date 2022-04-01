@@ -38,14 +38,6 @@ jobs:
           name: logout
           command: docker logout
 
-#  heroku_deploy:
-#    executor: heroku/default
-#    steps:
-#      - checkout
-#      - heroku/install
-#      - run:
-#          command: heroku/deploy-via-git
-            
 
 workflows:
   django:
@@ -59,12 +51,11 @@ workflows:
             branches:
               only: master
 
-      - heroku_deploy:
-          jobs:
-            - heroku/deploy-via-git:
-                - run: python manage.py runserver
-          requires:
-            - build-and-test
-          filters:
-            branches:
-              only: master
+  heroku_deploy:
+    jobs:
+      - heroku/deploy-via-git
+      requires:
+        - build-and-test
+      filters:
+        branches:
+          only: master
