@@ -48,21 +48,11 @@ jobs:
     machine: true
     steps:
       - checkout
-#      - run:
-#          name: build for heroku
-#          command: docker build .
-
-      # Deploy to Heroku
       - heroku/install
       - run: heroku config:set SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
       - run:
-          name: pulling image from dockerhub
-          command: docker pull $DOCKERHUB_USERNAME/p13:latest
-      - run:
-          name: pushing image to heroku
-          command: |
-            docker tag $DOCKERHUB_USERNAME/p13:latest registry.heroku.com/${HEROKU_APP_NAME}/web
-            docker push registry.heroku.com/${HEROKU_APP_NAME}/web
+          name: building and pushing to heroku
+          command: heroku container:push web
       - run:
           name: deploy on heroku
           command: heroku container:release web
@@ -79,14 +69,10 @@ workflows:
           filters:
             branches:
               only: master
-
-#      - heroku/deploy-via-git:
+:
       - deploy:
           requires:
             - dockering
-#          pre-steps:
-#            - heroku/install
-#            - run: heroku config:set SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
           filters:
             branches:
               only: master
