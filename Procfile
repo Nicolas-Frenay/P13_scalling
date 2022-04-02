@@ -1,3 +1,2 @@
 web: gunicorn oc_lettings_site.wsgi
-release: python manage.py migrate
-postbuild: python loaddata db.json
+release: sh -c 'python manage.py migrate && python manage.py loaddata db.json'
