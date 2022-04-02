@@ -60,7 +60,7 @@ workflows:
       - heroku/deploy-via-git:
           requires:
             - dockering
-          pre-deploy:
+          pre-steps:
             run: heroku config:set SECRET_KEY=$SECRET_KEY
           filters:
             branches:
