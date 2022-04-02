@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 
+
 def trigger_error(request):
     return 42 == 0
+
 
 urlpatterns = [
     path('', include('apps.home.urls', namespace='home')),
