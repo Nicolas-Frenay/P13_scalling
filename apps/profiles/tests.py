@@ -5,28 +5,37 @@ from django.contrib.auth.models import User
 from .models import Profile
 
 
-def test_index_profiles():
-    path = reverse('profiles:index')
-    assert resolve(path).view_name == 'profiles:index'
-
-
 @pytest.mark.django_db
-def test_index_profiles_view():
-    client = Client()
-    path = reverse('profiles:index')
-    response = client.get(path)
-    content = response.content.decode()
-    expected_content = '<title>Profiles</title>'
-    assert expected_content in content
+class TestProfile:
+    def create_profile(self):
+        user = User.objects.create(username='toto', password='totototo1')
+        profile = Profile.objects.create(user=user, favorite_city='ville')
+        return profile
 
+    def test_index_profiles(self):
+        path = reverse('profiles:index')
+        assert resolve(path).view_name == 'profiles:index'
 
-@pytest.mark.django_db
-def test_profile_view():
-    user = User.objects.create(username='toto', password='totototo1')
-    profile = Profile.objects.create(user=user, favorite_city='ville')
-    client = Client()
-    path = reverse('profiles:profile', kwargs={'username': user.username})
-    response = client.get(path)
-    content = response.content.decode()
-    expected_content = profile.user.username
-    assert expected_content in content
+    def test_index_profiles_view(self):
+        client = Client()
+        path = reverse('profiles:index')
+        response = client.get(path)
+        content = response.content.decode()
+        expected_content = '<title>Profiles</title>'
+        assert expected_content in content
+
+    def test_profile_url(self):
+        profile = self.create_profile()
+        path = reverse('profiles:profile', kwargs={
+            'username': profile.user.username})
+        assert resolve(path).view_name == 'profiles:profile'
+
+    def test_profile_view(self):
+        profile = self.create_profile()
+        client = Client()
+        path = reverse('profiles:profile',
+                       kwargs={'username': profile.user.username})
+        response = client.get(path)
+        content = response.content.decode()
+        expected_content = '<title>' + profile.user.username + '</title>'
+        assert expected_content in content
