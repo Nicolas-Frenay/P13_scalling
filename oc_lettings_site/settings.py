@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-import django_on_heroku
+# import django_on_heroku
 import sentry_sdk
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -125,4 +125,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-django_on_heroku.settings(locals())
+# django_on_heroku.settings(locals())
