@@ -5,8 +5,10 @@ import django_on_heroku
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
+# Loading environement variable
 load_dotenv()
 
+# sentry settings
 sentry_sdk.init(
     dsn=os.getenv('SENTRY_DSN'),
     integrations=[DjangoIntegration()],
@@ -125,4 +127,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# module that set project automatically for heroku
 django_on_heroku.settings(locals())

@@ -1,9 +1,12 @@
 version: 2.1
 orbs:
+  # loading orbs from circleCI
   python: circleci/python@1.5.0
   heroku: circleci/heroku@1.2.6
 
 jobs:
+
+  # mount a docker python image to run tests
   build-and-test:
     docker:
       - image: cimg/python:3.9
@@ -11,6 +14,7 @@ jobs:
           SECRET_KEY: $SECRET_KEY
     steps:
       - checkout
+      # installing packages with pip using orb
       - python/install-packages:
             pkg-manager: pip
       - run:
@@ -20,6 +24,8 @@ jobs:
           name: Run tests
           command: pytest
 
+  # Create docker image of the project, then tag it with "latest" and commit's SHA1
+  # then push it to dockerhub
   dockering:
     machine: true
     steps:
@@ -48,8 +54,10 @@ jobs:
 workflows:
   django:
     jobs:
+      # always executed
       - build-and-test
 
+      # only execute for master branch, if build-and-test was completed
       - dockering:
           requires:
             - build-and-test
@@ -57,11 +65,15 @@ workflows:
             branches:
               only: master
 
+      # only executed for master branch, if dockering was completed
       - heroku/deploy-via-git:
           requires:
             - dockering
           pre-steps:
             - heroku/install
+            # setting config vars in heroku, If heroku app is drop, there is
+            # no need to enter django's secret key and sentry DSN on heroku again,
+            # it's done here.
             - run: |
                 heroku config:set SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
                 heroku config:set SENTRY_DSN=${SENTRY_DSN} -a ${HEROKU_APP_NAME}
