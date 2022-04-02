@@ -45,18 +45,15 @@ jobs:
           command: docker logout
 
   deploy:
-    docker:
-      - image: nicolasfrenay/p13:latest
+    machine: true
     steps:
-      - setup_remote_docker:
-          version: 20.10.12
-      - checkout
-      - run: docker build .
       - heroku/install
       - run: heroku container:login
       - heroku/push-docker-image:
+          image: $DOCKERHUB_USERNAME/p13:latest
           process-types: web
       - heroku/release-docker-image:
+          image: $DOCKERHUB_USERNAME/p13:latest
           process-types: web
 
 
