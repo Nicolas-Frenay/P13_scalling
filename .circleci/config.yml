@@ -62,7 +62,9 @@ workflows:
             - dockering
           pre-steps:
             - heroku/install
-            - run: heroku config:set SECRET_KEY=${SECRET_KEY}
+            - run: |
+                heroku config:set SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
+                heroku config:set SENTRY_DSN=${SENTRY_DSN} -a ${HEROKU_APP_NAME}
           filters:
             branches:
               only: master
