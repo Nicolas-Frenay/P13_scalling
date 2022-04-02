@@ -47,13 +47,17 @@ jobs:
   deploy:
     machine: true
     steps:
+      - checkout
+      - run:
+          name: build for heroku
+          command: docker build .
+
+      # Deploy to Heroku
       - heroku/install
       - run: heroku container:login
       - heroku/push-docker-image:
-          image: $DOCKERHUB_USERNAME/p13:latest
           process-types: web
       - heroku/release-docker-image:
-          image: $DOCKERHUB_USERNAME/p13:latest
           process-types: web
 
 
