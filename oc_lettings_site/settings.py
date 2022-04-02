@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import sentry_sdk
+import django_on_heroku
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -127,3 +128,5 @@ STATICFILES_ROOT = [BASE_DIR.joinpath('staticfiles/')]
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+django_on_heroku.settings(locals())
