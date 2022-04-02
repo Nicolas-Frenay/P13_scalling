@@ -2,7 +2,7 @@ version: "3"
 
 services:
   web:
-    build: .
+    image: nicolasfrenay/p13:latest
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
