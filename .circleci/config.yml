@@ -56,6 +56,9 @@ jobs:
       - heroku/install
       - run: heroku config:set SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
       - run:
+          name: pulling image from dockerhub
+          command: docker pull $DOCKERHUB_USERNAME/p13:latest
+      - run:
           name: pushing image to heroku
           command: |
             docker tag $DOCKERHUB_USERNAME/p13:latest registry.heroku.com/${HEROKU_APP_NAME}/web
