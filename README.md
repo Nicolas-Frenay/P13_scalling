@@ -75,3 +75,33 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+## Variables d'environement :
+Le projet utilise 2 variables d'environement (secret key de django et DSN de sentry) stockées dans le fichier ".env" , non enregistré sur git hub.
+Vous aurez besoin de créer ce fichier à la racine du projet pour executer l'application.
+
+Le fichier doit contenir les variables suivante :
+```
+SECRET_KEY=fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s
+SENTRY_DSN=https://84ad9cce424c4b9ab9980f910a0bcafe@o1186453.ingest.sentry.io/6306344
+```
+
+## Déploiement
+Le déploiement est complétement automatisé, à chaque push sur la branche master, le pipeline s'execute sur circleCI, et est consultable ici : [https://app.circleci.com/pipelines/github/Nicolas-Frenay/P13_scalling?filter=all](url)
+
+Le pipeline execute automatiquement les tests (flake8 et pytest), si les tests sont réussis, il créer une image docker et la push sur le dockerhub (nicolasfrenay/p13:latest), et enfin si la conteneurisation s'est bien effectuée, il déploie le projet sur heroku. [https://oc-lettings-nf.herokuapp.com/](url)
+
+En cas de push sur une autre branche que master, il execute seulement les tests.
+
+Les erreurs de l'application peuvent être suivi sur sentry (vous devez disposé d'un compte et avoir acces au projet) : [https://sentry.io/organizations/nf-1y/issues/?project=6306344](url)
+
+
+### Configuration requise pour le déploiement :
+
+- avoir cloner le projet depuis github
+- être autorisé à effectuer des pushs sur le repository
+
+Le pipeline étant totalement automatisé, aucune configuration supplémentaire n'est nécessaire
+
+
+
