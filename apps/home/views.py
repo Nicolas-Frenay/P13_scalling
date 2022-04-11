@@ -10,3 +10,8 @@ from django.shortcuts import render
 # cursus in. Praesent volutpat porttitor magna, non finibus neque cursus id.
 def index(request):
     return render(request, 'home/index.html')
+
+
+# View for testing sentry is logging error on project
+def trigger_error(request):
+    return 42 == 0
